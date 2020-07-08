@@ -2,7 +2,30 @@ gcloud config set project sixth-impulse-280708
 
 gcloud sql connect testdb1 --user=root --quiet
 
-// Customers
+SOME GENERAL CRUD STATEMENTS:
+Update:
+UPDATE [tablename] SET [fieldname] = [value1], [value2] WHERE [fieldname] = [value];
+ALTER TABLE [tablename] ADD [fieldname + values];
+
+
+Delete:
+DELETE FROM [tablename] WHERE [fieldname] = [value];
+
+// Customers table
+Create:
+CREATE TABLE customers(
+customer_id INT PRIMARY KEY AUTO_INCREMENT,
+forename VARCHAR(20) NOT NULL,
+surname VARCHAR(20) NOT NULL,
+address VARCHAR(100) NOT NULL,
+email VARCHAR(20) NOT NULL,
+password VARCHAR(20) NOT NULL
+);
+
+INSERT INTO customers (forename, surname, address, email, password) VALUES ('', '', '', '', '');
+
+
+Read:
 SELECT * FROM customers;
 SELECT id, forename, surname, address, email, password FROM customers;
 SELECT DISTINCT id, forename, surname FROM customers ORDER BY surname DESC;
@@ -10,6 +33,15 @@ SELECT DISTINCT id, forename, surname FROM customers ORDER BY forename DESC;
 SELECT * FROM customers WHERE surname = '<SURNAME>'; 
 SELECT * FROM customers WHERE city='Manchester' OR city='London’;
 SELECT * FROM customers WHERE name LIKE '%p%';
+
+Update:
+UPDATE customers SET [fieldname] = [value1], [value2] WHERE [fieldname] = [value];
+ALTER TABLE customers ADD [fieldname + values];
+ALTER TABLE customers ADD postcode VARCHAR(10);  
+
+Delete:
+DELETE FROM customers WHERE [fieldname] = [value];
+DELETE FROM customers WHERE forename = 'Vera';
 
 // Orders
 SELECT * FROM orders
