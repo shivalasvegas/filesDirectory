@@ -3,13 +3,16 @@ gcloud config set project sixth-impulse-280708
 gcloud sql connect testdb1 --user=root --quiet
 
 SOME GENERAL CRUD STATEMENTS:
+Read:
+SELECT * FROM [tablename];
+
 Update:
 UPDATE [tablename] SET [fieldname] = [value1], [value2] WHERE [fieldname] = [value];
 ALTER TABLE [tablename] ADD [fieldname + values];
 
-
 Delete:
 DELETE FROM [tablename] WHERE [fieldname] = [value];
+DROP TABLE IF EXISTS [tablename]; 
 
 // Customers table
 Create:
@@ -44,7 +47,19 @@ DELETE FROM customers WHERE [fieldname] = [value];
 DELETE FROM customers WHERE forename = 'Vera';
 
 // Orders
+Create:
+CREATE TABLE orders(
+order_id INT PRIMARY KEY AUTO_INCREMENT,
+fk_customer_id INT NOT NULL,
+order_date 
+order_total 
+
+Read:
 SELECT * FROM orders
+
+Update:
+
+Delete:
 
 //Products
 SELECT * FROM products
