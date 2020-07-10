@@ -3,6 +3,10 @@ gcloud config set project sixth-impulse-280708
 gcloud sql connect testdb1 --user=root --quiet
 
 SOME GENERAL CRUD STATEMENTS:
+Create: 
+CREATE DATABASE IF NOT EXISTS shefeltgoodDB
+USE shefeltgoodDB;
+
 Read:
 SELECT * FROM [tablename];
 
@@ -16,13 +20,15 @@ DROP TABLE IF EXISTS [tablename];
 
 // Customers table
 Create:
-CREATE TABLE customers(
-customer_id INT PRIMARY KEY AUTO_INCREMENT,
-forename VARCHAR(20) NOT NULL,
-surname VARCHAR(20) NOT NULL,
-address VARCHAR(100) NOT NULL,
-email VARCHAR(20) NOT NULL,
-password VARCHAR(20) NOT NULL
+
+CREATE TABLE customers (
+  customer_id int(11) NOT NULL AUTO_INCREMENT,
+  forename varchar(20) NOT NULL,
+  surname varchar(20) NOT NULL,
+  address varchar(100) NOT NULL,
+  email varchar(20) NOT NULL,
+  password varchar(20) NOT NULL,
+  PRIMARY KEY (customer_id)
 );
 
 INSERT INTO customers (forename, surname, address, email, password) VALUES ('', '', '', '', '');
@@ -43,16 +49,26 @@ ALTER TABLE customers ADD [fieldname + values];
 ALTER TABLE customers ADD postcode VARCHAR(10);  
 
 Delete:
+DROP TABLE IF EXISTS customers;
 DELETE FROM customers WHERE [fieldname] = [value];
 DELETE FROM customers WHERE forename = 'Vera';
 
 // Orders
 Create:
-CREATE TABLE orders(
-order_id INT PRIMARY KEY AUTO_INCREMENT,
-fk_customer_id INT NOT NULL,
-order_date 
-order_total 
+CREATE TABLE orders (
+  order_id int(11) NOT NULL AUTO_INCREMENT,
+  order_date date NOT NULL,
+  order_total decimal(7,2) NOT NULL,
+  fk_customer_id int(11) NOT NULL,
+  fk_product_id int(11) NOT NULL,
+  PRIMARY KEY (order_id),
+  KEY fk_customer_id (fk_customer_id),
+  KEY fk_product_id (fk_product_id),
+  CONSTRAINT orders_ibfk_1 FOREIGN KEY (fk_customer_id) REFERENCES customers (customer_id),
+  CONSTRAINT orders_ibfk_2 FOREIGN KEY (fk_product_id) REFERENCES products (product_id)
+);
+
+
 
 Read:
 SELECT * FROM orders
@@ -60,12 +76,62 @@ SELECT * FROM orders
 Update:
 
 Delete:
+DROP TABLE IF EXISTS orders;
 
 //Products
+Create:
+CREATE TABLE products (
+  product_id int(11) NOT NULL AUTO_INCREMENT,
+  product_name varchar(20) NOT NULL,
+  product_price decimal(7,2) NOT NULL,
+  fk_category_id int(11) NOT NULL,
+  PRIMARY KEY (product_id),
+  KEY fk_category_id (fk_category_id),
+  CONSTRAINT products_ibfk_1 FOREIGN KEY (fk_category_id) REFERENCES categories (category_id)
+);
+
+INSERT INTO Products (product_name, product_price, fk_category_id) VALUES ('', '', '', '');
+
+Read:
 SELECT * FROM products
+SELECT * FROM games WHERE product_weight>12;
+
+Update:
 ALTER TABLE products ADD product_weight int;
 UPDATE products SET product_weight = 20;
-SELECT * FROM games WHERE product_weight>12;
+
+Delete:
+DROP TABLE IF EXISTS products;
+
+//Orderdetails
+
+DROP TABLE IF EXISTS orderdetails;
+
+CREATE TABLE orderdetails (
+  fk_order_id int(11) NOT NULL,
+  fk_product_id int(11) NOT NULL,
+  product_quantity int(11) NOT NULL,
+  KEY fk_order_id (`fk_order_id`),
+  KEY fk_product_id (`fk_product_id`),
+  CONSTRAINT orderdetails_ibfk_1 FOREIGN KEY (fk_order_id) REFERENCES orders (order_id),
+  CONSTRAINT orderdetails_ibfk_2 FOREIGN KEY (fk_product_id) REFERENCES products (product_id)
+);
+INSERT INTO orderdetails (fk_order_id, fk_product_id, product_quantity) VALUES ('', '', '', '');
+
+//Categories
+
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories(
+  category_id int(11) NOT NULL AUTO_INCREMENT,
+  category varchar(50) NOT NULL,
+  PRIMARY KEY (category_id)
+);
+
+INSERT INTO categories (category) VALUES ('');
+
+
+
 
 
 	
