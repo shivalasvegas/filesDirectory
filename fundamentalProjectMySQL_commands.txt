@@ -1,6 +1,6 @@
 gcloud config set project sixth-impulse-280708
 
-gcloud sql connect testdb1 --user=root --quiet
+gcloud sql connect shefeltgood1 --user=root --quiet
 
 SOME GENERAL CRUD STATEMENTS:
 Create: 
@@ -74,6 +74,7 @@ Read:
 SELECT * FROM orders
 
 Update:
+ALTER TABLE orders ADD fk_product_id int(11) NOT NULL FOREIGN KEY (fk_product_id) REFERENCES products (product_id),
 
 Delete:
 DROP TABLE IF EXISTS orders;
@@ -128,7 +129,12 @@ CREATE TABLE categories(
   PRIMARY KEY (category_id)
 );
 
-INSERT INTO categories (category) VALUES ('');
+INSERT INTO categories (category) VALUES ('Christmas');
+INSERT INTO categories (category) VALUES ('Easter');
+INSERT INTO categories (category) VALUES ('Valentines');
+INSERT INTO categories (category) VALUES ('Kawaii Animals');
+INSERT INTO categories (category) VALUES ('The Originals');
+
 
 
 
