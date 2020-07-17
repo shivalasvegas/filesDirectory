@@ -74,10 +74,39 @@ Read:
 SELECT * FROM orders
 
 Update:
-ALTER TABLE orders ADD fk_product_id int(11) NOT NULL FOREIGN KEY (fk_product_id) REFERENCES products (product_id),
+ALTER TABLE orders ADD fk_product_id int(11) NOT NULL FOREIGN KEY (fk_product_id) REFERENCES products (product_id);
+ALTER TABLE orders ADD fk_orderline_id int(11) NOT NULL FOREIGN KEY (fk_orderline_id) REFERENCES orderlines (orderline_id);
+ALTER TABLE orders ADD product_qty int(50) NOT NULL;
+ALTER TABLE orders ADD FOREIGN KEY (fk_orderline_id) REFERENCES orderlines(orderline_id);
+
+ALTER TABLE orders ADD COLUMN fk_orderline_id INT(11) NOT NULL;
+
+UPDATE orders ord INNER JOIN orderlines ordlines ON ordlines.orderlines_id = ord.fk_orderlines_id SET ord.order_total = (SELECT SUM(ordlines.product_total FROM orderlines WHERE ordlines.fk_order_id = orders.getId();
+
+UPDATE orders 
+INNER JOIN orderlines  
+ON orderlines.fk_order_id = orders.order_id 
+SET order.order_total = (
+SELECT SUM(ordlines.product_total) FROM orderlines 
+WHERE orderlines.fk_order_id = 1);
+
+UPDATE orders 
+JOIN(SELECT SUM(orderlines.product_total) FROM orderlines 
+WHERE orderlines.fk_order_id = 2) 
+AS total ON orderlines.fk_order_id = orders.order_id SET orders.order_total = total;
+
+SELECT SUM(product_total) FROM orderlines WHERE fk_order_id = 1;
+UPDATE orders SET order_total = (SELECT SUM(product_total) AS total  FROM orderlines WHERE fk_order_id = 1) WHERE order_id  = 1; 
+
+UPDATE orders 
+JOIN(
+SELECT SUM(orderlines.product_total) FROM orderlines 
+WHERE orderlines.fk_order_id = 2) AS total ON orders.order_id = orderlines.fk_order_id SET orders.order_total = total;
 
 Delete:
 DROP TABLE IF EXISTS orders;
+
+
 
 //Products
 Create:
